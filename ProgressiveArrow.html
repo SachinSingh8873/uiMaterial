@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Arrow Progress Bar</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+</head>
+<body>
+<style>
+  body {
+    display: block;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .container {
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+
+  .arrow-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .arrow-steps .step {
+    font-size: 14px;
+    text-align: center;
+    color: #666;
+    cursor: default;
+    margin: 0 3px;
+    padding: 10px 10px 10px 30px;
+    min-width: 180px;
+    position: relative;
+    background-color: #CCCCCC;
+    user-select: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .arrow-steps .step:after, .arrow-steps .step:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -17px;
+    width: 0;
+    height: 0;
+    border-top: 19px solid transparent;
+    border-bottom: 17px solid transparent;
+    border-left: 17px solid #CCCCCC;
+    z-index: 2;
+    transition: border-color 0.25 ease;
+    margin-right: -0.5px;
+  }
+
+  .arrow-steps .step:before {
+    right: auto;
+    left: 0;
+    border-left: 17px solid #fff;
+    z-index: 0;
+  }
+
+  /* .arrow-steps .step:first-child:before {
+    border: none;
+  } */
+
+  .arrow-steps .step:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .arrow-steps .step.current {
+    color: #fff;
+    background-color: #024879;
+  }
+
+  .arrow-steps .step.current:after {
+    border-left: 17px solid #024879;
+  }
+
+  .arrow-steps .step.done {
+    background-color: #CCCCCC;
+    color: #fff;
+  }
+    
+  .nav a {
+    margin: 10px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-flex;
+  }
+
+  .nav a:hover {
+    background-color: #ddd;
+  }
+
+  .pull-right {
+    float: right;
+  }
+</style>
+
+<div class="container">
+  <div class="wrapper">
+    <div class="arrow-steps clearfix">
+      <div class="step current"><span>Step 1</span></div>
+      <div class="step"><span>Step 2</span></div>
+      <div class="step"><span>Step 3</span></div>
+      <div class="step"><span>Step 4</span></div>
+    </div>
+    <div class="nav clearfix">
+      <a href="#" class="prev">Previous</a>
+      <a href="#" class="next pull-right">Next</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+  jQuery(document).ready(function() {
+    var back = jQuery(".prev");
+    var next = jQuery(".next");
+    var steps = jQuery(".step");
+
+    next.on("click", function(e) {
+      e.preventDefault();
+      var currentStep = steps.filter(".current");
+      var nextStep = currentStep.next(".step");
+
+      if (nextStep.length) {
+        currentStep.removeClass("current").addClass("done");
+        nextStep.addClass("current");
+      }
+    });
+
+    back.on("click", function(e) {
+      e.preventDefault();
+      var currentStep = steps.filter(".current");
+      var prevStep = currentStep.prev(".step");
+
+      if (prevStep.length) {
+        currentStep.removeClass("current");
+        prevStep.removeClass("done").addClass("current");
+      }
+    });
+  });
+</script>
+</body>
+</html>
